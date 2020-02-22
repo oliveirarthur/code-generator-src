@@ -5,9 +5,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GeneratorComponent } from './generator/generator.component';
+import { TemplateComponent } from './template/template.component';
 
 @NgModule({
-  declarations: [AppComponent, GeneratorComponent],
+  declarations: [AppComponent, GeneratorComponent, TemplateComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
