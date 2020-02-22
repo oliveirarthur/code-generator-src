@@ -8,20 +8,27 @@
           <input
             type="text"
             class="form-control"
-            [formControl]="variable">
+            placeholder="Name"
+            [formControl]="variable.get('name')">
         </div>
         <div class="col-5">
           <input
             type="text"
             class="form-control"
-            [formControl]="variable">
+            placeholder="Value"
+            [formControl]="variable.get('value')">
         </div>
         <div class="col">
-          <button class="btn btn-danger">X</button>
+          <button class="btn btn-danger"
+            (click)="removeVariable(variable, i)"
+          >X</button>
         </div>
       </div>
-
-      {{ variables.value | json }}
+      <div class="col-12">
+        <button class="btn btn-primary btn-block"
+          (click)="addVariable()"
+        >Add variable</button>
+      </div>
     </div>
 
     <div class="col-12">
