@@ -1,4 +1,4 @@
-<div class="row"
+<div class="row pb-3"
   *ngFor="let variable of variables?.controls; let i=index">
   <div class="col-5">
     <input
@@ -7,21 +7,25 @@
       placeholder="Name"
       [formControl]="variable.get('name')">
   </div>
-  <div class="col-5">
+  <div class="col">
     <input
       type="text"
       class="form-control"
       placeholder="Value"
       [formControl]="variable.get('value')">
   </div>
-  <div class="col">
+  <div class="col-auto">
     <button class="btn btn-danger"
       (click)="removeVariable(variable, i)"
     >X</button>
   </div>
+
 </div>
-<div class="col-12">
-  <button class="btn btn-primary btn-block"
-    (click)="addVariable()"
-  >Add variable</button>
+
+<div class="row">
+  <div class="col-12">
+    <button class="btn btn-primary btn-block"
+      (click)="addVariable()"
+    >Add variable</button>
+  </div>
 </div>
