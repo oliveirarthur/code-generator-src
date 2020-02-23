@@ -14,8 +14,6 @@ export class GeneratorComponent implements OnInit {
   variables = this.formBuilder.array([]);
   template = new BehaviorSubject<ITemplate>({
     text: `Test text {{ a }}`,
-    variablePatternStart: '{{',
-    variablePatternEnd: '}}',
   } as ITemplate);
 
   constructor(
