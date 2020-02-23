@@ -11,14 +11,21 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class GeneratorComponent implements OnInit {
   variables = this.formBuilder.array([]);
-  template = new BehaviorSubject<ITemplate>({} as ITemplate);
+  template = new BehaviorSubject<ITemplate>({
+    text: `Test text {{ a }}`,
+    variablePatternStart: '{{',
+    variablePatternEnd: '}}',
+  } as ITemplate);
 
   constructor(
     private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit() {
-    this.addVariable();
+    this.addVariable({
+      name: `a`,
+      value: '10'
+    });
   }
 
   addVariable(params: IVariable = {

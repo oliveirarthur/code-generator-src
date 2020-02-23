@@ -19,7 +19,15 @@ export class TemplateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this._initInputValue();
     this._watchInputChanges();
+  }
+
+  private _initInputValue() {
+    if (!this.template) {
+      return;
+    }
+    this.templateInput.setValue(this.template.value.text);
   }
 
   _watchInputChanges() {

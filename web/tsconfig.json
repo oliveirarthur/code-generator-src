@@ -15,6 +15,8 @@
       "node_modules/@types"
     ],
     "paths": {
+      "@components/*": ["src/app/components/*"],
+      "@environments/*": ["src/environments/*"],
       "@typings/*": ["src/typings/*"]
     },
     "lib": [
