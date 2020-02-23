@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from '@app/app-routing.module';
+import { AppComponent } from '@app/app.component';
 import { RendererComponent } from '@components/renderer/renderer.component';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { GeneratorComponent } from './generator/generator.component';
-import { TemplateComponent } from './template/template.component';
+import { TemplateComponent } from '@components/template/template.component';
+import { VariablesComponent } from '@components/variables/variables.component';
+import { GeneratorComponent } from '@pages/generator/generator.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +14,7 @@ import { TemplateComponent } from './template/template.component';
     GeneratorComponent,
     TemplateComponent,
     RendererComponent,
+    VariablesComponent,
   ],
   imports: [
     BrowserModule,

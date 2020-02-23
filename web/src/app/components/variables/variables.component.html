@@ -1,0 +1,27 @@
+<div class="row"
+  *ngFor="let variable of variables?.controls; let i=index">
+  <div class="col-5">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Name"
+      [formControl]="variable.get('name')">
+  </div>
+  <div class="col-5">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Value"
+      [formControl]="variable.get('value')">
+  </div>
+  <div class="col">
+    <button class="btn btn-danger"
+      (click)="removeVariable(variable, i)"
+    >X</button>
+  </div>
+</div>
+<div class="col-12">
+  <button class="btn btn-primary btn-block"
+    (click)="addVariable()"
+  >Add variable</button>
+</div>

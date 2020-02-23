@@ -10,6 +10,7 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./generator.component.sass']
 })
 export class GeneratorComponent implements OnInit {
+
   variables = this.formBuilder.array([]);
   template = new BehaviorSubject<ITemplate>({
     text: `Test text {{ a }}`,
@@ -22,29 +23,6 @@ export class GeneratorComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.addVariable({
-      name: `a`,
-      value: '10'
-    });
   }
 
-  addVariable(params: IVariable = {
-    name: '',
-    value: '',
-  }): FormGroup {
-    const formGroup = this.formBuilder.group(params);
-    this.variables.push(formGroup);
-    return formGroup;
-  }
-
-  removeVariable(
-    variable: FormGroup,
-    index: number,
-  ) {
-    const variableName = variable.get('name').value;
-    if (!confirm(`Remove variable ${variableName}?`)) {
-      return;
-    }
-    this.variables.removeAt(index);
-  }
 }
