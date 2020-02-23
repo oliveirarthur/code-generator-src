@@ -5,6 +5,7 @@ import { ITemplate } from '@typings/Template';
 import { IVariable } from '@typings/Variable';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import * as Handlebars from 'handlebars';
 
 @Component({
   selector: 'cg-renderer',
@@ -36,19 +37,20 @@ export class RendererComponent implements OnInit {
     });
   }
 
-  private _renderTemplate() {
-    const template: string = this.variables.value.reduce((acc: string, variable: IVariable) => {
-      const variablePattern = [
-        this.template.value.variablePatternStart,
-        variable.name,
-        this.template.value.variablePatternEnd,
-      ].join('\\s*');
-      const variableRegex = new RegExp(variablePattern, 'g');
+  private _renderTemplate(): string {
+    const variables = this.variables.value.reduce((acc, variable: IVariable) => {
+      acc[variable.name] = variable.value;
+      return acc;
+    }, {});
 
-      return acc.replace(variableRegex, variable.value);
-    }, this.template.value.text || '');
+    try {
+      const template = Handlebars.compile(this.template.value.text)(variables);
+      this.processedTemplate.next(template);
+      return template;
+    } catch (error) {
+      console.error(error);
+    }
 
-    this.processedTemplate.next(template);
   }
 
 }
