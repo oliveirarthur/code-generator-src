@@ -1,6 +1,32 @@
-<textarea
-  cols="30"
-  rows="10"
-  class="form-control text-monospace"
-  [formControl]="templateInput"
-></textarea>
+<ul
+  ngbNav
+  #nav="ngbNav"
+  [(activeId)]="active"
+  class="nav-tabs"
+>
+  <li
+    *ngFor="let tab of (tabs | async); let i=index"
+    [ngbNavItem]="tab.id"
+  >
+    <a ngbNavLink>
+      {{ tab.name || 'Tab ' + (i + 1) }}
+      <span
+        class="close position-relative pl-2 font-weight-light"
+        (click)="closeTab($event, tab.id)"
+      >×</span>
+    </a>
+    <ng-template ngbNavContent>
+      <textarea
+        cols="30"
+        rows="10"
+        class="form-control text-monospace"
+        [formControl]="templateInput(tab)"
+      ></textarea>
+    </ng-template>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href (click)="addTab($event)">+</a>
+  </li>
+</ul>
+
+<div [ngbNavOutlet]="nav" class=""></div>

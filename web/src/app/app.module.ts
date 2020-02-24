@@ -6,6 +6,7 @@ import { AppComponent } from '@app/app.component';
 import { RendererComponent } from '@components/renderer/renderer.component';
 import { TemplateComponent } from '@components/template/template.component';
 import { VariablesComponent } from '@components/variables/variables.component';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { GeneratorComponent } from '@pages/generator/generator.component';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { GeneratorComponent } from '@pages/generator/generator.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    NgbNavModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
