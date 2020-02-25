@@ -1,4 +1,22 @@
-<pre class="border border-dark m-0"
-  [innerHTML]="processedTemplate | async"
-></pre>
+<ul
+  ngbNav
+  #nav="ngbNav"
+  [(activeId)]="active"
+  class="nav-tabs"
+>
+  <li
+    *ngFor="let tab of (tabs | async); let i=index"
+    [ngbNavItem]="tab.id"
+  >
+    <a ngbNavLink>
+      {{ tab.name || 'Tab ' + (i + 1) }}
+    </a>
+    <ng-template ngbNavContent>
+      <pre class="border border-dark m-0"
+        [innerHTML]="(processedTemplates | async)[tab.id]"
+      ></pre>
+    </ng-template>
+  </li>
+</ul>
 
+<div [ngbNavOutlet]="nav" class=""></div>

@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ITab } from '@typings/Tab';
 import { ITemplate } from '@typings/Template';
-import { BehaviorSubject } from 'rxjs';
 import _get from 'lodash/get';
+import _set from 'lodash/set';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cg-template',
@@ -14,8 +15,9 @@ export class TemplateComponent implements OnInit {
 
   @Input() template: BehaviorSubject<ITemplate>;
   @Input() tabs: BehaviorSubject<Array<ITab>>;
-  active = 1;
 
+  active = 1;
+  inputs: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,12 +25,32 @@ export class TemplateComponent implements OnInit {
 
   ngOnInit(): void {
     this.addTab();
+    this._watchTabsChanges();
   }
 
-  templateInput(tab: ITab): FormControl {
-    const formControl = this.formBuilder.control(_get(tab, 'template.text', ''));
-    formControl.valueChanges.subscribe(value => tab.template.text = value);
-    return formControl;
+  private _watchTabsChanges() {
+    this.inputs = this.formBuilder.group({});
+    return this.tabs.subscribe(tabs => tabs.forEach(tab => {
+      const tabId = tab.id.toString();
+      if (this.inputs.get(tabId)) {
+        return;
+      }
+      const control = this.formBuilder.control(_get(tab, 'template.text', ''));
+      control.valueChanges.subscribe(value => {
+        const currentTabs = this.tabs.value;
+        const currentTab = currentTabs.find(cTab => cTab.id === tab.id);
+        _set(currentTab, 'template.text', value);
+        this.tabs.next(currentTabs);
+      });
+      this.inputs.addControl(
+        tabId,
+        control
+      );
+    }));
+  }
+
+  input(tab: ITab) {
+    return this.inputs.get(tab.id.toString());
   }
 
   addTab(event: MouseEvent = null) {

@@ -1,11 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { environment } from '@environments/environment';
-import { ITemplate } from '@typings/Template';
+import { ITab } from '@typings/Tab';
+import { IProcessedTemplate, IProcessedTemplateError, ITemplate } from '@typings/Template';
 import { IVariable } from '@typings/Variable';
+import * as Handlebars from 'handlebars';
+import _get from 'lodash/get';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import * as Handlebars from 'handlebars';
 
 @Component({
   selector: 'cg-renderer',
@@ -14,12 +16,15 @@ import * as Handlebars from 'handlebars';
 })
 export class RendererComponent implements OnInit {
 
+  @Input() tabs: BehaviorSubject<Array<ITab>>;
   @Input() template: BehaviorSubject<ITemplate>;
   @Input() variables: FormArray;
 
   private variablesReduced = new BehaviorSubject<any>({});
 
-  processedTemplate = new BehaviorSubject<string>('');
+  active = 0;
+  processedTemplates = new BehaviorSubject<IProcessedTemplate>({});
+  errors = new BehaviorSubject<IProcessedTemplateError>({});
 
   constructor(
   ) { }
@@ -35,12 +40,12 @@ export class RendererComponent implements OnInit {
     });
 
     return merge(
-      this.template,
+      this.tabs,
       this.variablesReduced,
     ).pipe(
       debounceTime(environment.debounceTime),
     ).subscribe(() => {
-      this._renderTemplate();
+      this._renderTabTemplates();
     }).add(variablesChangesSubscription);
   }
 
@@ -53,15 +58,22 @@ export class RendererComponent implements OnInit {
     return variablesReduced;
   }
 
-  private _renderTemplate(): string {
-    try {
-      const template = Handlebars.compile(this.template.value.text)(this.variablesReduced.value);
-      this.processedTemplate.next(template);
-      return template;
-    } catch (error) {
-      console.error(error);
-    }
-    return this.processedTemplate.value;
+  private _renderTabTemplates(): IProcessedTemplate {
+    const processedTemplates = this.tabs.value.reduce((acc, tab) => {
+      try {
+        const templateText = _get(tab, 'template.text');
+        const processedTemplate = Handlebars.compile(templateText)(this.variablesReduced.value);
+        acc[tab.id] = processedTemplate;
+      } catch (error) {
+        this.errors.next({
+          ...this.errors.value,
+          [tab.id]: error,
+        });
+      }
+      return acc;
+    }, {});
+    this.processedTemplates.next(processedTemplates);
+    return processedTemplates;
   }
 
 }
