@@ -1,0 +1,4 @@
+[submodule "site"]
+	path = web/dist/code-generator
+	url = git@github.com:oliveirarthur/code-generator.git
+	branch = master

@@ -12,3 +12,15 @@ services:
     volumes:
       - ./web:/app
     working_dir: /app
+
+  deploy:
+    build:
+      context: .
+      dockerfile: deploy.dockerfile
+    entrypoint: /deploy/docker-entrypoint.sh
+    env_file: deploy.env
+    volumes:
+      - ./deploy/.ssh:/root/.ssh
+      - ./deploy:/deploy
+      - ./web/dist:/app
+    working_dir: /app
