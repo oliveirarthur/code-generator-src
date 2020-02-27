@@ -33,6 +33,6 @@
 	- place the content of the generated *id_rsa.pub* file into github
 		- `cat ${PWD}/deploy/.ssh/id_rsa.pub`
 - build the production ready release
-	- `docker-compose run web yarn run build --delete-output-path false`
+	- `docker-compose run web yarn run build --delete-output-path false --base-href "/code-generator/"`
 - commits and pushes the new release to the remote
 	- `docker-compose run deploy`
