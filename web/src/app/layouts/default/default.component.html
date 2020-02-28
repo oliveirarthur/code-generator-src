@@ -1,5 +1,16 @@
 <nav class="navbar fixed-top navbar-light bg-light ">
   <span class="navbar-brand mb-0 h1">Code Generator</span>
+  <div class="form-inline text-center">
+    <a
+      [href]="exportURL | async"
+      target="_blank"
+      class="btn btn-outline-success mx-2"
+      type="button"
+      download="data.json"
+    >
+      Export
+    </a>
+  </div>
 </nav>
 
 <div class="container-fluid mt-5">
