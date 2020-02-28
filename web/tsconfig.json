@@ -20,6 +20,7 @@
       "@environments/*": ["src/environments/*"],
       "@layouts/*": ["src/app/layouts/*"],
       "@pages/*": ["src/app/pages/*"],
+      "@services/*": ["src/app/services/*"],
       "@typings/*": ["src/typings/*"]
     },
     "lib": [

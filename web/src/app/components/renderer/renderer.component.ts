@@ -8,6 +8,7 @@ import * as Handlebars from 'handlebars';
 import _get from 'lodash/get';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { DataService } from '@app/services/data.service';
 
 @Component({
   selector: 'cg-renderer',
@@ -16,9 +17,9 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class RendererComponent implements OnInit {
 
-  @Input() tabs: BehaviorSubject<Array<ITab>>;
-  @Input() template: BehaviorSubject<ITemplate>;
-  @Input() variables: FormArray;
+  tabs = this.dataSvc.tabs;
+  template = this.dataSvc.template;
+  variables = this.dataSvc.variables;
 
   private variablesReduced = new BehaviorSubject<any>({});
 
@@ -27,6 +28,7 @@ export class RendererComponent implements OnInit {
   errors = new BehaviorSubject<IProcessedTemplateError>({});
 
   constructor(
+    private readonly dataSvc: DataService,
   ) { }
 
   ngOnInit(): void {

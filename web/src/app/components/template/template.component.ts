@@ -5,6 +5,7 @@ import { ITemplate } from '@typings/Template';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import { BehaviorSubject } from 'rxjs';
+import { DataService } from '@app/services/data.service';
 
 @Component({
   selector: 'cg-template',
@@ -13,14 +14,15 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class TemplateComponent implements OnInit {
 
-  @Input() template: BehaviorSubject<ITemplate>;
-  @Input() tabs: BehaviorSubject<Array<ITab>>;
+  template = this.dataSvc.template;
+  tabs = this.dataSvc.tabs;
 
   active = 1;
   inputs: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
+    private readonly dataSvc: DataService,
   ) { }
 
   ngOnInit(): void {
