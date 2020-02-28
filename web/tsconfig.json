@@ -18,6 +18,7 @@
       "@app/*": ["src/app/*"],
       "@components/*": ["src/app/components/*"],
       "@environments/*": ["src/environments/*"],
+      "@layouts/*": ["src/app/layouts/*"],
       "@pages/*": ["src/app/pages/*"],
       "@typings/*": ["src/typings/*"]
     },

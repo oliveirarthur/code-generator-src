@@ -8,6 +8,7 @@ import { TemplateComponent } from '@components/template/template.component';
 import { VariablesComponent } from '@components/variables/variables.component';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { GeneratorComponent } from '@pages/generator/generator.component';
+import { DefaultComponent } from './layouts/default/default.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { GeneratorComponent } from '@pages/generator/generator.component';
     TemplateComponent,
     RendererComponent,
     VariablesComponent,
+    DefaultComponent,
   ],
   imports: [
     BrowserModule,
