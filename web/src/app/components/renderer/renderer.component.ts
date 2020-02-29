@@ -1,14 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { DataService } from '@app/services/data.service';
 import { environment } from '@environments/environment';
-import { ITab } from '@typings/Tab';
-import { IProcessedTemplate, IProcessedTemplateError, ITemplate } from '@typings/Template';
+import { IProcessedTemplate, IProcessedTemplateError } from '@typings/Template';
 import { IVariable } from '@typings/Variable';
 import * as Handlebars from 'handlebars';
 import _get from 'lodash/get';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { DataService } from '@app/services/data.service';
 
 @Component({
   selector: 'cg-renderer',
@@ -18,7 +16,6 @@ import { DataService } from '@app/services/data.service';
 export class RendererComponent implements OnInit {
 
   tabs = this.dataSvc.tabs;
-  template = this.dataSvc.template;
   variables = this.dataSvc.variables;
 
   private variablesReduced = new BehaviorSubject<any>({});

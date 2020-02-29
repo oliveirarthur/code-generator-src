@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ITab } from '@typings/Tab';
-import { ITemplate } from '@typings/Template';
+import { IVariable } from '@typings/Variable';
 import { BehaviorSubject, merge } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +11,15 @@ import { BehaviorSubject, merge } from 'rxjs';
 export class DataService {
 
   tabs = new BehaviorSubject<Array<ITab>>([]);
-  template = new BehaviorSubject<ITemplate>({
-    text: `Test text {{ a }}`,
-  } as ITemplate);
   variables = this.formBuilder.array([]);
 
   data = merge(
     this.tabs,
-    this.template,
     this.variables,
+  ).pipe(
+    distinctUntilChanged((a, b) => {
+      return JSON.stringify(a) !== JSON.stringify(b);
+    }),
   );
 
   constructor(
@@ -28,9 +29,26 @@ export class DataService {
   exportAll() {
     return {
       variables: this.variables.value,
-      template: this.template.value,
       tabs: this.tabs.value,
     };
+  }
+
+  addVariable(variableData = {}, index: number = -1) {
+    const formGroup = this.formBuilder.group(variableData);
+    if (index > -1) {
+      this.variables.insert(index, formGroup);
+    } else {
+      this.variables.push(formGroup);
+    }
+    return formGroup;
+  }
+
+  setVariableValue(variableData: IVariable, index: number) {
+    const variable = this.variables.at(index);
+    if (!variable) {
+      return this.addVariable(variableData, index);
+    }
+    variable.setValue(variableData);
   }
 
 }

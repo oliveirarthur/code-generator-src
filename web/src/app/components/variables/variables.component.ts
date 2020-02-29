@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { DataService } from '@app/services/data.service';
 import { IVariable } from '@typings/Variable';
 
@@ -13,7 +13,6 @@ export class VariablesComponent implements OnInit {
   variables = this.dataSvc.variables;
 
   constructor(
-    private formBuilder: FormBuilder,
     private readonly dataSvc: DataService,
   ) { }
 
@@ -28,9 +27,7 @@ export class VariablesComponent implements OnInit {
     name: '',
     value: '',
   }): FormGroup {
-    const formGroup = this.formBuilder.group(params);
-    this.variables.push(formGroup);
-    return formGroup;
+    return this.dataSvc.addVariable(params);
   }
 
   removeVariable(

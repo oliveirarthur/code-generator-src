@@ -1,11 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DataService } from '@app/services/data.service';
 import { ITab } from '@typings/Tab';
-import { ITemplate } from '@typings/Template';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
-import { BehaviorSubject } from 'rxjs';
-import { DataService } from '@app/services/data.service';
 
 @Component({
   selector: 'cg-template',
@@ -14,7 +12,6 @@ import { DataService } from '@app/services/data.service';
 })
 export class TemplateComponent implements OnInit {
 
-  template = this.dataSvc.template;
   tabs = this.dataSvc.tabs;
 
   active = 1;
@@ -34,7 +31,12 @@ export class TemplateComponent implements OnInit {
     this.inputs = this.formBuilder.group({});
     return this.tabs.subscribe(tabs => tabs.forEach(tab => {
       const tabId = tab.id.toString();
-      if (this.inputs.get(tabId)) {
+      const input = this.inputs.get(tabId);
+      if (input) {
+        if (tab.template.text === input.value) {
+          return;
+        }
+        input.setValue(tab.template.text);
         return;
       }
       const control = this.formBuilder.control(_get(tab, 'template.text', ''));
