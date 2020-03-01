@@ -2,15 +2,7 @@
   <span class="navbar-brand mb-0 h1">Code Generator</span>
   <div class="form-inline text-center">
     <cg-button-import></cg-button-import>
-    <a
-      [href]="exportURL | async"
-      target="_blank"
-      class="btn btn-outline-success mx-2"
-      type="button"
-      download="data.json"
-    >
-      Export
-    </a>
+    <cg-button-export></cg-button-export>
   </div>
 </nav>
 

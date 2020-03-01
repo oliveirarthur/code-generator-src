@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
+import { ButtonExportComponent } from '@components/button-export/button-export.component';
 import { ButtonImportComponent } from '@components/button-import/button-import.component';
 import { RendererComponent } from '@components/renderer/renderer.component';
 import { TemplateComponent } from '@components/template/template.component';
@@ -20,6 +21,7 @@ import { GeneratorComponent } from '@pages/generator/generator.component';
     VariablesComponent,
     DefaultComponent,
     ButtonImportComponent,
+    ButtonExportComponent,
   ],
   imports: [
     BrowserModule,
