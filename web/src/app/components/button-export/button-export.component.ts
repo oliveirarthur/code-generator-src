@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { DataService } from '@app/services/data.service';
-import { BehaviorSubject } from 'rxjs';
+import * as moment from 'moment';
+import { BehaviorSubject, interval, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cg-button-export',
@@ -11,6 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ButtonExportComponent implements OnInit {
 
   exportURL = new BehaviorSubject<SafeUrl>('');
+  exportName: Observable<string>;
 
   constructor(
     private readonly dataSvc: DataService,
@@ -19,6 +22,7 @@ export class ButtonExportComponent implements OnInit {
 
   ngOnInit(): void {
     this._watchDataChanges();
+    this._generateExportName();
   }
 
   private _watchDataChanges() {
@@ -29,6 +33,16 @@ export class ButtonExportComponent implements OnInit {
       const fileURISanitized = this.domSanitizer.bypassSecurityTrustUrl(fileURI);
       this.exportURL.next(fileURISanitized);
     });
+  }
+
+  private _generateExportName() {
+    this.exportName = interval(1000)
+      .pipe(
+        map(() => {
+          const dateFormatted = moment().format('Y-MM-DD_HH-mm-ss');
+          return `code-generator_export_${dateFormatted}.json`;
+        }),
+      );
   }
 
 }

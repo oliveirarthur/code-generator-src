@@ -3,7 +3,7 @@
   target="_blank"
   class="btn btn-outline-success mx-2"
   type="button"
-  download="data.json"
+  [download]="exportName | async"
 >
   Export
 </a>
