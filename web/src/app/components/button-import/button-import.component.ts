@@ -40,6 +40,7 @@ export class ButtonImportComponent implements OnInit {
 
     } catch (error) {
       // TODO: show error message
+      alert('Unable to parse file');
       console.error(error);
     }
   }

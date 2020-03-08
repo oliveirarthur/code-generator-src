@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ITab } from '@typings/Tab';
 import { IVariable } from '@typings/Variable';
+import _cloneDeep from 'lodash/cloneDeep';
 import { BehaviorSubject, merge } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,23 +13,30 @@ export class DataService {
   tabs = new BehaviorSubject<Array<ITab>>([]);
   variables = this.formBuilder.array([]);
 
-  data = merge(
-    this.tabs,
-    this.variables,
-  ).pipe(
-    distinctUntilChanged((a, b) => {
-      return JSON.stringify(a) !== JSON.stringify(b);
-    }),
-  );
+  public dataChanged$ = new BehaviorSubject<void>(null);
 
   constructor(
     private formBuilder: FormBuilder,
-  ) { }
+  ) {
+    this._watchDataChanges();
+  }
+
+  private _watchDataChanges() {
+    return merge(this.tabs, this.variables.valueChanges)
+      .subscribe(() => {
+        this.dataChanged$.next();
+      });
+  }
 
   exportAll() {
+    const tabs = this.tabs.value.map(tab => {
+      const newTab = _cloneDeep(tab);
+      delete newTab.formControl;
+      return newTab;
+    });
     return {
       variables: this.variables.value,
-      tabs: this.tabs.value,
+      tabs,
     };
   }
 

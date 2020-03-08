@@ -38,14 +38,12 @@ export class RendererComponent implements OnInit {
       return this._reduceVariables();
     });
 
-    return merge(
-      this.tabs,
-      this.variablesReduced,
-    ).pipe(
-      debounceTime(environment.debounceTime),
-    ).subscribe(() => {
-      this._renderTabTemplates();
-    }).add(variablesChangesSubscription);
+    return this.dataSvc.dataChanged$
+      .pipe(
+        debounceTime(environment.debounceTime),
+      ).subscribe(() => {
+        this._renderTabTemplates();
+      }).add(variablesChangesSubscription);
   }
 
   private _reduceVariables(): any {

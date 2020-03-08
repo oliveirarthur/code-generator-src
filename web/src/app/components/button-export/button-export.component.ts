@@ -26,7 +26,7 @@ export class ButtonExportComponent implements OnInit {
   }
 
   private _watchDataChanges() {
-    this.dataSvc.data.subscribe(() => {
+    this.dataSvc.dataChanged$.subscribe(() => {
       const data = this.dataSvc.exportAll();
       const dataJSON = JSON.stringify(data, null, 2);
       const fileURI = 'data:text/json;charset=utf-8,' + encodeURIComponent(dataJSON);
