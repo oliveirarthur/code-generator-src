@@ -10,6 +10,10 @@
   >
     <a ngbNavLink>
       {{ tab.name || 'Tab ' + (i + 1) }}
+      <button class="btn btn-dark btn-sm ml-2"
+        *ngxClipboardIfSupported
+        (click)="copyToClipboard(tab)"
+      >Copy</button>
     </a>
     <ng-template ngbNavContent>
       <pre class="border border-dark m-0"

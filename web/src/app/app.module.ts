@@ -11,6 +11,7 @@ import { VariablesComponent } from '@components/variables/variables.component';
 import { DefaultComponent } from '@layouts/default/default.component';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { GeneratorComponent } from '@pages/generator/generator.component';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { GeneratorComponent } from '@pages/generator/generator.component';
     AppRoutingModule,
     ReactiveFormsModule,
     NgbNavModule,
+    ClipboardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

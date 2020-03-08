@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '@app/services/data.service';
 import { environment } from '@environments/environment';
+import { ITab } from '@typings/Tab';
 import { IProcessedTemplate, IProcessedTemplateError } from '@typings/Template';
 import { IVariable } from '@typings/Variable';
 import * as Handlebars from 'handlebars';
 import _get from 'lodash/get';
-import { BehaviorSubject, merge, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'cg-renderer',
@@ -26,6 +28,7 @@ export class RendererComponent implements OnInit {
 
   constructor(
     private readonly dataSvc: DataService,
+    private readonly clipboardService: ClipboardService,
   ) { }
 
   ngOnInit(): void {
@@ -71,6 +74,16 @@ export class RendererComponent implements OnInit {
     }, {});
     this.processedTemplates.next(processedTemplates);
     return processedTemplates;
+  }
+
+  copyToClipboard(tab: ITab) {
+    const text = this.processedTemplates.value[tab.id];
+    try {
+      this.clipboardService.copy(text);
+      alert('Copied!');
+    } catch (error) {
+      alert('Error while copying =/');
+    }
   }
 
 }
