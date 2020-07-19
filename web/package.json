@@ -23,7 +23,7 @@
     "@ng-bootstrap/ng-bootstrap": "^6.0.0",
     "bootstrap": "^4.4.1",
     "handlebars": "^4.7.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "ngx-clipboard": "^13.0.0",
     "rxjs": "~6.5.4",
