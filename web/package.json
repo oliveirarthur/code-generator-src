@@ -22,7 +22,7 @@
     "@angular/router": "~9.0.2",
     "@ng-bootstrap/ng-bootstrap": "^6.0.0",
     "bootstrap": "^4.4.1",
-    "handlebars": "^4.7.3",
+    "handlebars": "^4.7.7",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "ngx-clipboard": "^13.0.0",
